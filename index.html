@@ -4,17 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Teste DISC — V4 Company</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --v4-red:     #e50914;
       --v4-red-dk:  #b20710;
-      --v4-bg:      #141414;
-      --v4-surface: #1a1a1a;
-      --v4-surf2:   #242424;
-      --v4-border:  #333333;
+      --v4-bg:      #0d0d0d;
+      --v4-surface: #141414;
+      --v4-surf2:   #1a1a1a;
+      --v4-border:  #2a2a2a;
+      --v4-glow:    rgba(229,9,20,0.15);
       --v4-text:    #ffffff;
       --v4-muted:   #b3b3b3;
       --c-d: #e50914;
@@ -30,11 +31,12 @@
       color: var(--v4-text);
       min-height: 100vh;
       display: flex;
+      align-items: center;
       justify-content: center;
-      padding: 28px 16px 60px;
+      padding: 40px 16px;
     }
 
-    #app { width: 100%; max-width: 680px; }
+    #app { width: 100%; max-width: 680px; padding: 8px 0 48px; }
 
     /* ── Header ── */
     .hdr {
@@ -49,10 +51,12 @@
 
     /* ── Typography ── */
     .title-xl {
-      font-size: clamp(26px, 5vw, 42px);
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 14px;
+      font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+      font-size: clamp(48px, 9vw, 80px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
     }
     .title-xl em { color: var(--v4-red); font-style: normal; }
     .subtitle {
@@ -216,8 +220,11 @@
       margin: 0 auto 16px;
     }
     .result-profile-name {
-      font-size: clamp(30px, 6vw, 48px);
-      font-weight: 800; line-height: 1.1;
+      font-family: 'Bebas Neue', 'Montserrat', sans-serif;
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 400;
+      letter-spacing: 3px;
+      line-height: 1.05;
       margin-bottom: 4px;
     }
     .result-nick { font-size: 15px; color: var(--v4-muted); font-weight: 500; margin-bottom: 12px; }
@@ -233,9 +240,10 @@
     /* Chart */
     .chart {
       background: var(--v4-surface);
-      border: 1px solid var(--v4-border);
+      border: 1px solid rgba(229,9,20,0.25);
       border-radius: var(--r);
       padding: 20px; margin-bottom: 20px;
+      box-shadow: 0 0 24px var(--v4-glow);
     }
     .chart-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--v4-muted); margin-bottom: 16px; }
     .chart-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
@@ -254,9 +262,10 @@
     /* Profile detail card */
     .detail-card {
       background: var(--v4-surface);
-      border: 1px solid var(--v4-border);
+      border: 1px solid rgba(229,9,20,0.25);
       border-radius: var(--r);
       padding: 22px; margin-bottom: 16px;
+      box-shadow: 0 0 24px var(--v4-glow);
     }
     .detail-card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--v4-muted); margin-bottom: 16px; }
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
