@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste DISC — V4 Company</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --v4-red:     #e50914;
+      --v4-red-dk:  #b20710;
+      --v4-bg:      #141414;
+      --v4-surface: #1a1a1a;
+      --v4-surf2:   #242424;
+      --v4-border:  #333333;
+      --v4-text:    #ffffff;
+      --v4-muted:   #b3b3b3;
+      --c-d: #e50914;
+      --c-i: #ffc02a;
+      --c-s: #52cc5a;
+      --c-c: #4a9ee8;
+      --r: 8px;
+    }
+
+    body {
+      font-family: 'Montserrat', -apple-system, sans-serif;
+      background: var(--v4-bg);
+      color: var(--v4-text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 28px 16px 60px;
+    }
+
+    #app { width: 100%; max-width: 680px; }
+
+    /* ── Header ── */
+    .hdr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 44px;
+    }
+    .logo-img { height: 28px; width: auto; display: block; }
+    .logo-name { font-weight: 700; font-size: 14px; letter-spacing: 0.3px; }
+    .logo-name span { color: var(--v4-muted); font-weight: 400; }
+
+    /* ── Typography ── */
+    .title-xl {
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    .title-xl em { color: var(--v4-red); font-style: normal; }
+    .subtitle {
+      color: var(--v4-muted);
+      font-size: 15px;
+      line-height: 1.65;
+      font-weight: 400;
+      margin-bottom: 36px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--v4-muted);
+      margin-bottom: 8px;
+    }
+
+    /* ── Form ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--v4-muted);
+    }
+    .field input {
+      background: var(--v4-surface);
+      border: 1px solid var(--v4-border);
+      border-radius: var(--r);
+      color: var(--v4-text);
+      font-family: inherit;
+      font-size: 14px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus { border-color: var(--v4-red); }
+    .field input::placeholder { color: #555; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--r);
+      font-family: inherit; font-size: 15px; font-weight: 700;
+      cursor: pointer; border: none;
+      transition: background 0.2s, transform 0.1s, opacity 0.2s;
+      width: 100%;
+    }
+    .btn-primary { background: var(--v4-red); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--v4-red-dk); }
+    .btn-primary:active:not(:disabled) { transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn-outline {
+      background: transparent;
+      color: var(--v4-muted);
+      border: 1px solid var(--v4-border);
+      margin-top: 10px;
+    }
+    .btn-outline:hover { border-color: #555; color: var(--v4-text); }
+
+    /* ── Progress ── */
+    .progress-wrap { margin-bottom: 30px; }
+    .progress-meta {
+      display: flex; justify-content: space-between;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      color: var(--v4-muted); margin-bottom: 8px;
+    }
+    .progress-track {
+      height: 3px; background: var(--v4-border);
+      border-radius: 2px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--v4-red);
+      border-radius: 2px; transition: width 0.4s ease;
+    }
+
+    /* ── Question ── */
+    .q-text {
+      font-size: clamp(15px, 2.2vw, 19px);
+      font-weight: 600; line-height: 1.55;
+      margin-bottom: 8px;
+    }
+    .q-hint {
+      font-size: 13px; color: var(--v4-muted);
+      margin-bottom: 20px; font-weight: 400;
+    }
+
+    /* ── Alternatives ── */
+    .alts { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+
+    .alt {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--v4-surface);
+      border: 1.5px solid var(--v4-border);
+      border-radius: var(--r);
+      padding: 13px 12px;
+      cursor: grab;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+      position: relative;
+    }
+    .alt:active { cursor: grabbing; }
+    .alt.dragging { opacity: 0.35; }
+    .alt.drop-above::before {
+      content: '';
+      position: absolute;
+      top: -6px; left: 0; right: 0;
+      height: 2px;
+      background: var(--v4-red);
+      border-radius: 2px;
+      box-shadow: 0 0 6px var(--v4-red);
+    }
+
+    .rank {
+      min-width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .rank-1 { background: var(--v4-surf2); color: var(--v4-text); border: 1.5px solid #555; }
+    .rank-2 { background: var(--v4-surf2); color: var(--v4-muted); border: 1.5px solid var(--v4-border); }
+    .rank-3 { background: var(--v4-surf2); color: var(--v4-muted); border: 1.5px solid var(--v4-border); }
+    .rank-4 { background: var(--v4-surf2); color: var(--v4-muted); border: 1.5px solid var(--v4-border); }
+
+    .alt-txt { font-size: 13.5px; line-height: 1.5; flex: 1; font-weight: 400; }
+
+    .alt-arrows { display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; }
+    .arr-btn {
+      background: var(--v4-surf2); border: 1px solid var(--v4-border);
+      border-radius: 4px; color: var(--v4-muted);
+      cursor: pointer; font-size: 11px;
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+    .arr-btn:hover:not(:disabled) { background: var(--v4-border); color: var(--v4-text); }
+    .arr-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+    /* ── Result ── */
+    .result-hero {
+      text-align: center;
+      padding: 32px 0 24px;
+    }
+    .profile-initial {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: 800;
+      margin: 0 auto 16px;
+    }
+    .result-profile-name {
+      font-size: clamp(30px, 6vw, 48px);
+      font-weight: 800; line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .result-nick { font-size: 15px; color: var(--v4-muted); font-weight: 500; margin-bottom: 12px; }
+    .result-phrase { font-size: 16px; font-weight: 600; font-style: italic; line-height: 1.4; }
+
+    .elem-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 20px; padding: 5px 14px;
+      font-size: 13px; font-weight: 600;
+      margin: 16px 0 24px;
+    }
+
+    /* Chart */
+    .chart {
+      background: var(--v4-surface);
+      border: 1px solid var(--v4-border);
+      border-radius: var(--r);
+      padding: 20px; margin-bottom: 20px;
+    }
+    .chart-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--v4-muted); margin-bottom: 16px; }
+    .chart-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .chart-row:last-child { margin-bottom: 0; }
+    .chart-lbl { font-size: 13px; font-weight: 800; width: 20px; flex-shrink: 0; }
+    .chart-bg { flex: 1; height: 26px; background: var(--v4-surf2); border-radius: 4px; overflow: hidden; }
+    .chart-bar {
+      height: 100%; border-radius: 4px;
+      display: flex; align-items: center;
+      padding-left: 10px;
+      font-size: 12px; font-weight: 700; color: #fff;
+      min-width: 38px;
+      transition: width 1s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    /* Profile detail card */
+    .detail-card {
+      background: var(--v4-surface);
+      border: 1px solid var(--v4-border);
+      border-radius: var(--r);
+      padding: 22px; margin-bottom: 16px;
+    }
+    .detail-card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--v4-muted); margin-bottom: 16px; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 480px) { .detail-grid { grid-template-columns: 1fr; } }
+    .detail-item { display: flex; flex-direction: column; gap: 4px; }
+    .detail-item-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--v4-muted); }
+    .detail-item-val { font-size: 14px; font-weight: 500; line-height: 1.45; }
+
+    /* Secondary badge */
+    .sec-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--v4-surface);
+      border: 1px solid var(--v4-border);
+      border-radius: 20px; padding: 8px 16px;
+      font-size: 14px; font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .sec-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    .divider { height: 1px; background: var(--v4-border); margin: 22px 0; }
+
+    /* Sending overlay */
+    .sending-msg {
+      text-align: center; padding: 12px 0 20px;
+      font-size: 13px; color: var(--v4-muted);
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.35s ease both; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid #333; border-top-color: var(--v4-muted);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block; vertical-align: middle; margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ─── CONFIG ─────────────────────────────────── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_ShIuArxLW85OCboEOBCI5gQE3w5MAthVxNK2K-P0e80WD0qxTMU5zeKFD3CO7-zC/exec';
+
+/* ─── DATA ───────────────────────────────────── */
+const QUESTIONS = [
+  {
+    text: 'Você está em um restaurante. O garçom disse que sua mesa ficaria pronta em 10 minutos, mas já se passaram 25. Você:',
+    alts: {
+      D: 'Chama o gerente, deixa claro que o prazo foi descumprido e diz que irá embora se não resolver em 5 minutos',
+      I: 'Aproveita a espera conversando animadamente com quem está junto, quase não percebe o tempo passar',
+      S: 'Fica incomodado internamente, mas não fala nada para não criar uma situação desconfortável',
+      C: 'Anota mentalmente o horário exato, chama o garçom com calma e apresenta os fatos com precisão'
+    }
+  },
+  {
+    text: 'Você recebe um feedback duro do seu gestor em público, na frente do time. Sua reação é:',
+    alts: {
+      D: 'Responde na hora, defende seu ponto de vista e não deixa passar sem posicionamento',
+      I: 'Fica constrangido, mas tenta aliviar a tensão com humor ou leveza',
+      S: 'Absorve em silêncio, mas fica ruminando por horas depois, preocupado com o que os outros pensaram',
+      C: 'Escuta tudo sem reagir, anota os pontos e depois busca uma conversa reservada para entender os critérios'
+    }
+  },
+  {
+    text: 'Seu time precisa decidir entre duas estratégias opostas e há divergência de opiniões. Você:',
+    alts: {
+      D: 'Toma a frente, defende a opção que acredita ser melhor e pressiona para encerrar o debate',
+      I: 'Tenta ouvir todos, busca um clima de consenso e procura o caminho que deixe o grupo mais animado',
+      S: 'Prefere que outra pessoa decida, mas apoia quem precisar e garante que ninguém fique de fora',
+      C: 'Pede dados, mapeia os riscos de cada opção e só se posiciona quando tem argumentos sólidos'
+    }
+  },
+  {
+    text: 'Você está numa fila longa e alguém fura na sua frente sem cerimônia. Você:',
+    alts: {
+      D: 'Fala imediatamente, sem rodeios, e pede que a pessoa vá para o final da fila',
+      I: 'Faz um comentário irônico em voz alta, mais para arrancar risada de quem está perto do que para resolver',
+      S: 'Fica irritado por dentro, mas deixa passar para não criar confusão',
+      C: 'Avalia a situação antes de agir — se houver testemunhas e for claramente injusto, intervém com argumentos'
+    }
+  },
+  {
+    text: 'Você precisa apresentar um projeto importante para a diretoria em 3 dias e ainda não está pronto. Você:',
+    alts: {
+      D: 'Foca no essencial, corta o que não é crítico e entrega no prazo mesmo que não esteja perfeito',
+      I: 'Reúne o time, distribui o trabalho com energia e mantém o ânimo alto mesmo sob pressão',
+      S: 'Trabalha em silêncio, com calma, reorganiza as prioridades e entrega dentro do possível sem entrar em pânico',
+      C: 'Fica desconfortável com a falta de tempo, mas insiste em revisar cada detalhe mesmo que precise dormir menos'
+    }
+  },
+  {
+    text: 'Numa reunião que está se arrastando sem chegar a lugar nenhum, você:',
+    alts: {
+      D: 'Interrompe, propõe uma decisão objetiva e sugere encerrar o que não é produtivo',
+      I: 'Tenta reanimar o grupo com uma ideia nova ou uma piada para destravar o ambiente',
+      S: 'Fica quieto, espera o momento certo e só fala se alguém pedir sua opinião',
+      C: 'Observa tudo com atenção, identifica o ponto de bloqueio e apresenta uma análise estruturada do problema'
+    }
+  },
+  {
+    text: 'Um colega chega até você visivelmente estressado e desabafa sobre um problema pessoal no meio do expediente. Você:',
+    alts: {
+      D: 'Escuta o mínimo necessário, oferece uma solução rápida e sugere que ele retome o foco',
+      I: 'Para tudo, entra de cabeça na conversa, tenta animar a pessoa e acaba ficando lá por mais tempo do que planejou',
+      S: 'Escuta com atenção total, sem pressa e sem julgamento, mesmo que isso atrapalhe sua agenda',
+      C: 'Escuta, faz perguntas pontuais para entender melhor e tenta ajudar a pessoa a enxergar o problema com mais clareza'
+    }
+  },
+  {
+    text: 'Você está de férias e recebe uma mensagem do trabalho pedindo uma decisão urgente. Você:',
+    alts: {
+      D: 'Resolve na hora — não consegue deixar algo pendente, independente do dia',
+      I: 'Responde de forma descontraída, resolve rapidinho e ainda manda um áudio animado para o time',
+      S: 'Responde, mas fica chateado internamente com a invasão, sem conseguir reclamar abertamente',
+      C: 'Avalia se é realmente urgente, responde se for imprescindível e documenta para não deixar nada sem registro'
+    }
+  },
+  {
+    text: 'Você precisa convencer um cliente resistente a fechar negócio. Sua abordagem é:',
+    alts: {
+      D: 'Vai direto aos resultados e ao retorno que ele vai ter — sem enrolação, foco no que importa',
+      I: 'Cria conexão emocional, usa entusiasmo, conta histórias e faz o cliente sentir que é especial',
+      S: 'Mostra como outras pessoas se beneficiaram, transmite segurança e constrói confiança aos poucos',
+      C: 'Apresenta dados, casos reais, comparações e responde cada objeção com evidências concretas'
+    }
+  },
+  {
+    text: 'Você descobre que um processo que você segue há meses estava errado desde o início. Você:',
+    alts: {
+      D: 'Corrige imediatamente, comunica a mudança e segue em frente sem perder tempo com culpa',
+      I: 'Conta para o time de forma leve, transforma em aprendizado coletivo e já está pensando na solução',
+      S: 'Fica preocupado com o impacto nos outros, se culpa mais do que deveria e pede desculpas com frequência',
+      C: 'Investiga a fundo como o erro aconteceu, documenta as causas e cria um processo para que não se repita'
+    }
+  },
+  {
+    text: 'Você está em uma festa com pessoas que não conhece. Seu comportamento é:',
+    alts: {
+      D: 'Circula com confiança, puxa conversa sobre temas relevantes e rapidamente identifica quem tem algo a oferecer',
+      I: 'Vira alma da festa — conta histórias, faz todo mundo rir e sai de lá com dez novos amigos no Instagram',
+      S: 'Fica com o grupo que já conhece, é simpático quando alguém se aproxima, mas não toma a iniciativa',
+      C: 'Observa o ambiente antes de agir, escolhe uma ou duas pessoas interessantes para uma conversa mais profunda'
+    }
+  },
+  {
+    text: 'Seu líder te dá autonomia total para tocar um projeto sem interferência. Você:',
+    alts: {
+      D: 'Adora — é exatamente como gosta de trabalhar, com liberdade para decidir e executar rápido',
+      I: 'Curte a liberdade, mas sente falta de ter pessoas junto para trocar ideia e celebrar os avanços',
+      S: 'Fica um pouco inseguro sem referências claras, prefere ter alguém para validar as decisões importantes',
+      C: 'Aprecia a confiança, mas define sozinho uma estrutura rígida de critérios e etapas antes de começar'
+    }
+  },
+  {
+    text: 'Quando você comete um erro que impactou outras pessoas, sua primeira reação é:',
+    alts: {
+      D: 'Reconhece, resolve e segue em frente — não carrega culpa por muito tempo',
+      I: 'Pede desculpas de forma expressiva, precisa sentir que a relação voltou ao normal antes de se acalmar',
+      S: 'Fica muito mal, carrega o peso por dias e se preocupa profundamente com o que a pessoa estará sentindo',
+      C: 'Analisa onde errou, entende a causa raiz e só se sente bem quando tem certeza de que não vai se repetir'
+    }
+  },
+  {
+    text: 'Você precisa dar um feedback difícil para alguém da sua equipe. Você:',
+    alts: {
+      D: 'Fala diretamente, sem rodeios, com clareza — acredita que enrolação não ajuda ninguém',
+      I: 'Prepara o terreno emocionalmente, elogia primeiro e tenta tornar a conversa o mais leve possível',
+      S: 'Escolhe o momento com muito cuidado, usa palavras suaves e sofre mais do que a pessoa que está recebendo',
+      C: 'Estrutura o feedback com exemplos concretos, dados e um plano de melhoria claro antes de sentar para conversar'
+    }
+  },
+  {
+    text: 'Você enfrenta uma mudança grande e inesperada na empresa — reestruturação, novo modelo, nova liderança. Você:',
+    alts: {
+      D: 'Vê como oportunidade, já está pensando em como se posicionar bem nesse novo cenário',
+      I: 'Fica animado com o novo, mas precisa falar sobre isso com todo mundo para processar',
+      S: 'Fica apreensivo, precisa de tempo para se adaptar e sofre mais com a incerteza do que com a mudança em si',
+      C: 'Busca entender todos os detalhes antes de se posicionar — só se sente confortável quando tem um plano claro'
+    }
+  },
+  {
+    text: 'No seu tempo livre, o que mais te atrai:',
+    alts: {
+      D: 'Atividades com adrenalina, competição ou desafio físico — algo que exija superação',
+      I: 'Estar com pessoas — amigos, família, eventos, festas, qualquer coisa que envolva conexão e diversão',
+      S: 'Momentos tranquilos em casa, com família próxima ou amigos de longa data, sem muito agito',
+      C: 'Leitura, documentários, podcasts ou qualquer coisa que estimule o aprendizado e a reflexão'
+    }
+  },
+  {
+    text: 'Você está liderando um time desmotivado. Sua abordagem é:',
+    alts: {
+      D: 'Define uma meta ambiciosa e desafiante — acredita que um objetivo grande reacende o fogo',
+      I: 'Organiza um momento de integração, coloca energia positiva no ambiente e tenta resgatar o entusiasmo do grupo',
+      S: 'Conversa individualmente com cada pessoa, entende o que está acontecendo e oferece suporte personalizado',
+      C: 'Levanta dados de desempenho, apresenta o diagnóstico para o time e propõe um plano estruturado de recuperação'
+    }
+  },
+  {
+    text: 'Alguém te interrompe no meio de uma explicação importante para discordar de você. Você:',
+    alts: {
+      D: 'Mantém sua posição, retoma a palavra e deixa claro que ainda não terminou',
+      I: 'Deixa a pessoa falar, tenta encontrar um ponto em comum e transforma o embate em diálogo',
+      S: 'Se sente desconfortável, perde o fio da meada e cede mais do que deveria para evitar conflito',
+      C: 'Escuta a discordância com atenção, avalia se há mérito e só recua se os argumentos forem sólidos'
+    }
+  },
+  {
+    text: 'Você precisa tomar uma decisão importante com pouca informação disponível. Você:',
+    alts: {
+      D: 'Decide rápido com base na intuição e na experiência — paralisia é pior do que erro',
+      I: 'Consulta pessoas de confiança ao redor, reúne perspectivas e decide com base no que o grupo sente',
+      S: 'Adia o máximo possível, espera surgir mais clareza e só decide quando sente que tem segurança suficiente',
+      C: 'Mapeia o que sabe, o que não sabe e os riscos de cada caminho — só decide quando esgotou as fontes disponíveis'
+    }
+  },
+  {
+    text: 'Como você gostaria de ser lembrado pelos colegas de trabalho daqui a 10 anos:',
+    alts: {
+      D: 'Como alguém que entregou resultados extraordinários e transformou o ambiente ao seu redor',
+      I: 'Como alguém que fez as pessoas se sentirem bem, que trouxe energia e que tornava tudo mais leve',
+      S: 'Como alguém confiável, que sempre estava disponível e nunca deixou ninguém na mão',
+      C: 'Como alguém criterioso, que fazia as perguntas certas e nunca abria mão da qualidade'
+    }
+  }
+];
+
+const PROFILES = {
+  D: {
+    name: 'Dominante',
+    nick: 'Executor',
+    phrase: '"Fazer e impulsionar o mundo"',
+    element: '🔥 Fogo',
+    color: 'var(--c-d)',
+    colorHex: '#e50914',
+    motivations: 'Poder, controle, ser o melhor, resultados',
+    need: 'Controle',
+    strengths: 'Perseverança, energia, visão, adora desafios',
+    weaknesses: 'Egocêntrico, explosivo, impaciente, mandão',
+    pressure: 'Explode, agride, se motiva ainda mais para atingir metas',
+    character: 'Extrovertido',
+    fear: 'Perder o controle'
+  },
+  I: {
+    name: 'Influente',
+    nick: 'Comunicador',
+    phrase: '"A inspiração e a alegria do mundo"',
+    element: '💨 Ar',
+    color: 'var(--c-i)',
+    colorHex: '#ffc02a',
+    motivations: 'Diversão, popularidade, aceitação, conexão emocional',
+    need: 'Atenção',
+    strengths: 'Brincalhão, otimista, entusiasta, despreocupado, efusivo',
+    weaknesses: 'Esquecido, não termina o que começa, evasivo, desorganizado',
+    pressure: 'Dá desculpas, minimiza problemas, é evasivo',
+    character: 'Extrovertido',
+    fear: 'Ser considerado chato e não ser aceito'
+  },
+  S: {
+    name: 'Estável',
+    nick: 'Planejador',
+    phrase: '"A paz e a tranquilidade do mundo"',
+    element: '💧 Água',
+    color: 'var(--c-s)',
+    colorHex: '#52cc5a',
+    motivations: 'Aprovação, servir aos demais, evitar conflitos, estabilidade',
+    need: 'Paz',
+    strengths: 'Fácil de conviver, paciente, excelente ouvinte, transmite calma',
+    weaknesses: 'Inseguro, desmotivado sem reafirmação, passivo, indeciso',
+    pressure: 'Se esconde, congela, quer desaparecer',
+    character: 'Introvertido',
+    fear: 'Confronto e mudanças'
+  },
+  C: {
+    name: 'Condescendente',
+    nick: 'Analista',
+    phrase: '"Estrategistas e filósofos da vida"',
+    element: '🌍 Terra',
+    color: 'var(--c-c)',
+    colorHex: '#4a9ee8',
+    motivations: 'Independência, informação, desafios mentais, ter razão, reconhecimento',
+    need: 'Ordem',
+    strengths: 'Comprometido, leal, criterioso, profundo, considera todos antes de decidir',
+    weaknesses: 'Muito exigente, apreensivo, teimoso, pessimista, perfeccionista',
+    pressure: 'Se fecha, se deprime, exige muito de si próprio',
+    character: 'Introvertido',
+    fear: 'Errar e não ser compreendido'
+  }
+};
+
+/* ─── COMBINAÇÕES DE PERFIS ──────────────────── */
+const COMBINATIONS = {
+  'D+I': {
+    title: 'Liderança Carismática',
+    text: 'A combinação D+I une orientação a resultados com habilidade natural de inspirar e mobilizar pessoas. Esse perfil é visionário, decidido e persuasivo — lidera pelo exemplo e pelo entusiasmo. Tende a assumir riscos com confiança e tem facilidade em influenciar grupos. O principal desafio está em equilibrar a urgência por resultados com a escuta ativa, evitando decisões impulsivas que ignoram detalhes operacionais ou impactos sobre as pessoas.'
+  },
+  'D+S': {
+    title: 'Executor Resiliente',
+    text: 'D+S combina a determinação e a capacidade de tomar decisões difíceis com a paciência e a consistência do perfil Estável. É um líder firme, mas confiável — sabe quando pressionar e quando recuar. Destaca-se em ambientes que exigem resultados consistentes sem abrir mão da estabilidade da equipe. A tensão interna entre urgência e cautela pode ser um ponto de atenção: aprender a usar cada lado no momento certo é o grande diferencial desse perfil.'
+  },
+  'D+C': {
+    title: 'Estrategista Exigente',
+    text: 'A combinação D+C é marcada pela busca simultânea por resultados e qualidade. Esse perfil tem alta capacidade analítica aliada à tomada de decisão rápida — é ao mesmo tempo estratégico e executor. Tende ao perfeccionismo e pode ser muito exigente consigo mesmo e com os outros. É uma referência em ambientes de alta performance, onde resultados precisam ser alcançados com rigor e consistência. O desafio está em evitar o paralelo da análise e não deixar a perfeição ser inimiga do bom.'
+  },
+  'I+D': {
+    title: 'Comunicador Assertivo',
+    text: 'I+D é o perfil do comunicador que também sabe se posicionar e pressionar quando necessário. Inspira e mobiliza com entusiasmo, mas tem a firmeza do perfil D para tomar decisões e defender seu ponto de vista. É especialmente eficaz em vendas, liderança de equipes criativas e ambientes de alta energia onde é preciso tanto engajar quanto entregar. O risco está em alternar de forma brusca entre o charme e a imposição, gerando inconsistência nas relações.'
+  },
+  'I+S': {
+    title: 'Conector Empático',
+    text: 'A combinação I+S é a mais voltada para pessoas. Une o entusiasmo e a facilidade de conexão do perfil Influente com a paciência, a escuta e o cuidado genuíno do perfil Estável. É excelente em construir relacionamentos duradouros, criar ambientes colaborativos e sustentar culturas positivas. O principal desafio desse perfil é o conflito: tende a evitá-lo a todo custo, o que pode resultar em comunicação passiva e dificuldade em dar feedbacks difíceis.'
+  },
+  'I+C': {
+    title: 'Criativo Analítico',
+    text: 'I+C combina a criatividade e o entusiasmo do perfil Influente com a profundidade e o rigor analítico do Condescendente. É um perfil que gera ideias inovadoras com embasamento — não só tem boas ideias, mas consegue estruturá-las. Pode oscilar entre a espontaneidade e a necessidade de precisão, o que às vezes gera indecisão ou prolonga demais a fase de análise. Brilha em contextos que valorizam tanto criatividade quanto profundidade intelectual, como educação, consultoria e inovação.'
+  },
+  'S+D': {
+    title: 'Executor Paciente',
+    text: 'S+D é o perfil do executor silencioso: confiável, consistente, mas capaz de se posicionar com firmeza quando o momento exige. Não costuma buscar os holofotes, mas entrega com qualidade e sabe liderar quando necessário. Equilibra bem pressão e estabilidade, sendo uma referência de segurança para as equipes. O desafio está em aprender a se comunicar de forma mais proativa e assertiva, sem esperar o pior cenário para agir.'
+  },
+  'S+I': {
+    title: 'Facilitador Acolhedor',
+    text: 'S+I é altamente orientado às pessoas — combina a paciência e a lealdade do perfil Estável com o otimismo e a facilidade de conexão do Influente. Cria ambientes de confiança, bem-estar e colaboração com naturalidade. É excelente em papéis de suporte, facilitação e construção de equipes. A maior dificuldade desse perfil está em situações de conflito ou mudança rápida: tende a ceder em excesso para preservar a harmonia, o que pode comprometer seu posicionamento pessoal.'
+  },
+  'S+C': {
+    title: 'Especialista Meticuloso',
+    text: 'A combinação S+C é marcada pela precisão, consistência e profundidade. Une o cuidado analítico e a busca por qualidade do perfil C com a paciência, a lealdade e a aversão ao conflito do perfil S. É extremamente confiável, criterioso e comprometido com a excelência nos detalhes. Prefere ambientes previsíveis e estruturados, e pode ter dificuldade com mudanças rápidas ou ambiguidade. Sua maior força está na especialização e na execução de processos complexos com altíssima qualidade.'
+  },
+  'C+D': {
+    title: 'Perfeccionista Orientado a Resultados',
+    text: 'C+D combina exigência de qualidade com foco em entrega — quer os dois ao mesmo tempo. É altamente estratégico, analítico e orientado a metas, sendo uma referência em ambientes técnicos de alta performance. Tem dificuldade em tolerar erros e pode ser excessivamente crítico com a equipe e consigo mesmo. O desafio está em aprender a delegar com confiança, aceitando que nem sempre o caminho mais rápido é o mais perfeito, e vice-versa.'
+  },
+  'C+I': {
+    title: 'Pensador Sociável',
+    text: 'C+I é um perfil raro e poderoso: combina profundidade intelectual com habilidade de comunicar e conectar. Analisa com rigor, mas sabe traduzir complexidade em mensagens claras e envolventes. É ótimo para educação, inovação, consultoria e qualquer contexto que valorize tanto o raciocínio estruturado quanto a capacidade de engajar. O principal desafio é a oscilação entre precisão e espontaneidade — às vezes não sabe se segue a lógica ou o feeling.'
+  },
+  'C+S': {
+    title: 'Analista Criterioso',
+    text: 'A combinação C+S é o perfil do especialista profundo e confiável. Une o rigor analítico e o perfeccionismo do Condescendente com a paciência, a lealdade e a aversão ao risco do Estável. É extremamente meticuloso, consistente e comprometido com a qualidade — mas pode ser lento para decidir e resistente a mudanças. Tem um papel fundamental em funções que exigem precisão, profundidade e confiabilidade, como compliance, engenharia, pesquisa e finanças.'
+  }
+};
+
+/* ─── STATE ──────────────────────────────────── */
+let S = {
+  screen: 'welcome',
+  user: { name: '', email: '', empresa: '', funcao: '' },
+  currentQ: 0,
+  shuffled: [],   // array[20] of shuffled profile keys per question
+  ranking: [],    // current question's order (profile keys, index 0 = 1st)
+  answers: []     // array[20] of {D,I,S,C} points
+};
+
+let dragSrc = null;
+
+/* ─── STORAGE ────────────────────────────────── */
+const LS_KEY = 'disc_v4_state';
+
+function saveState() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      if (saved && saved.screen) {
+        S = saved;
+        return true;
+      }
+    }
+  } catch(e) {}
+  return false;
+}
+
+function clearState() {
+  try { localStorage.removeItem(LS_KEY); } catch(e) {}
+}
+
+/* ─── HELPERS ────────────────────────────────── */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function initShuffled() {
+  S.shuffled = QUESTIONS.map(() => shuffle(['D','I','S','C']));
+}
+
+function rankingToAnswer(ranking) {
+  const pts = { D: 0, I: 0, S: 0, C: 0 };
+  ranking.forEach((key, idx) => { pts[key] = 4 - idx; });
+  return pts;
+}
+
+function calcScores() {
+  const total = { D: 0, I: 0, S: 0, C: 0 };
+  S.answers.forEach(ans => {
+    ['D','I','S','C'].forEach(k => { total[k] += ans[k] || 0; });
+  });
+  return total;
+}
+
+function getDominant(scores) {
+  return Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+}
+
+function getSecondary(scores) {
+  return Object.entries(scores).sort((a,b) => b[1]-a[1])[1][0];
+}
+
+/* ─── RENDER ─────────────────────────────────── */
+const app = document.getElementById('app');
+
+function header() {
+  return `
+    <div class="hdr">
+      <img class="logo-img" src="data:image/png;base64,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" alt="V4 Company">
+      <div class="logo-name"><span>— Avaliação de Perfil Comportamental</span></div>
+    </div>`;
+}
+
+function render() {
+  if (S.screen === 'welcome') renderWelcome();
+  else if (S.screen === 'question') renderQuestion();
+  else if (S.screen === 'result') renderResult();
+}
+
+/* ── Welcome ── */
+function renderWelcome() {
+  app.innerHTML = `
+    ${header()}
+    <div class="fade-up">
+      <h1 class="title-xl">Descubra seu<br>perfil <em>DISC</em></h1>
+      <p class="subtitle">
+        20 perguntas. Ordene as alternativas do mais ao menos parecido com você.<br>
+        Sem respostas certas ou erradas — seja honesto(a).
+      </p>
+      <div class="form-grid">
+        <div class="field">
+          <label>Nome completo</label>
+          <input id="f-name" type="text" placeholder="Seu nome" value="${esc(S.user.name)}">
+        </div>
+        <div class="field">
+          <label>E-mail</label>
+          <input id="f-email" type="email" placeholder="seu@email.com" value="${esc(S.user.email)}">
+        </div>
+        <div class="field">
+          <label>Empresa</label>
+          <input id="f-empresa" type="text" placeholder="Nome da empresa" value="${esc(S.user.empresa)}">
+        </div>
+        <div class="field">
+          <label>Função / Cargo</label>
+          <input id="f-funcao" type="text" placeholder="Seu cargo" value="${esc(S.user.funcao)}">
+        </div>
+      </div>
+      <button class="btn btn-primary" id="btn-start" disabled>Iniciar teste →</button>
+    </div>`;
+
+  const fields = ['f-name','f-email','f-empresa','f-funcao'];
+  const btn = document.getElementById('btn-start');
+
+  function checkFields() {
+    const ok = fields.every(id => document.getElementById(id).value.trim() !== '');
+    btn.disabled = !ok;
+  }
+
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', checkFields);
+  });
+
+  checkFields();
+
+  btn.addEventListener('click', () => {
+    S.user.name    = document.getElementById('f-name').value.trim();
+    S.user.email   = document.getElementById('f-email').value.trim();
+    S.user.empresa = document.getElementById('f-empresa').value.trim();
+    S.user.funcao  = document.getElementById('f-funcao').value.trim();
+    S.screen = 'question';
+    S.currentQ = 0;
+    S.answers = [];
+    initShuffled();
+    S.ranking = [...S.shuffled[0]];
+    saveState();
+    render();
+  });
+}
+
+/* ── Question ── */
+function renderQuestion() {
+  const q = QUESTIONS[S.currentQ];
+  const n = S.currentQ;
+  const total = QUESTIONS.length;
+  const pct = Math.round((n / total) * 100);
+
+  app.innerHTML = `
+    ${header()}
+    <div class="fade-up">
+      <div class="progress-wrap">
+        <div class="progress-meta">
+          <span>Pergunta ${n + 1} de ${total}</span>
+          <span>${pct}% concluído</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+
+      <p class="q-text">${esc(q.text)}</p>
+      <p class="q-hint">Arraste ou use ↑↓ para ordenar do mais ao menos parecido com você</p>
+
+      <ul class="alts" id="alts-list">
+        ${S.ranking.map((key, idx) => altItem(key, idx, q.alts[key])).join('')}
+      </ul>
+
+      <button class="btn btn-primary" id="btn-next">
+        ${n < total - 1 ? 'Próxima →' : 'Ver resultado →'}
+      </button>
+    </div>`;
+
+  bindAltEvents();
+
+  document.getElementById('btn-next').addEventListener('click', () => {
+    S.answers[S.currentQ] = rankingToAnswer(S.ranking);
+    if (S.currentQ < QUESTIONS.length - 1) {
+      S.currentQ++;
+      S.ranking = [...S.shuffled[S.currentQ]];
+    } else {
+      S.screen = 'result';
+    }
+    saveState();
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+function altItem(key, idx, text) {
+  const rank = idx + 1;
+  return `
+    <li class="alt" draggable="true" data-idx="${idx}" data-key="${key}">
+      <div class="rank rank-${rank}">${rank}º</div>
+      <span class="alt-txt">${esc(text)}</span>
+      <div class="alt-arrows">
+        <button class="arr-btn" data-dir="up" data-idx="${idx}" ${idx === 0 ? 'disabled' : ''}>▲</button>
+        <button class="arr-btn" data-dir="down" data-idx="${idx}" ${idx === 3 ? 'disabled' : ''}>▼</button>
+      </div>
+    </li>`;
+}
+
+function bindAltEvents() {
+  const list = document.getElementById('alts-list');
+  if (!list) return;
+
+  /* Arrow buttons */
+  list.addEventListener('click', e => {
+    const btn = e.target.closest('.arr-btn');
+    if (!btn) return;
+    const idx = parseInt(btn.dataset.idx);
+    const dir = btn.dataset.dir;
+    const swap = dir === 'up' ? idx - 1 : idx + 1;
+    if (swap < 0 || swap > 3) return;
+    [S.ranking[idx], S.ranking[swap]] = [S.ranking[swap], S.ranking[idx]];
+    saveState();
+    const q = QUESTIONS[S.currentQ];
+    list.innerHTML = S.ranking.map((k, i) => altItem(k, i, q.alts[k])).join('');
+    bindAltEvents();
+  });
+
+  /* Drag and drop (desktop) */
+  list.querySelectorAll('.alt').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      dragSrc = parseInt(item.dataset.idx);
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      list.querySelectorAll('.alt').forEach(i => i.classList.remove('drop-above'));
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      list.querySelectorAll('.alt').forEach(i => i.classList.remove('drop-above'));
+      item.classList.add('drop-above');
+    });
+    item.addEventListener('drop', e => {
+      e.preventDefault();
+      const tgt = parseInt(item.dataset.idx);
+      if (dragSrc !== null && dragSrc !== tgt) {
+        const r = [...S.ranking];
+        const [moved] = r.splice(dragSrc, 1);
+        r.splice(tgt, 0, moved);
+        S.ranking = r;
+        saveState();
+        const q = QUESTIONS[S.currentQ];
+        list.innerHTML = S.ranking.map((k, i) => altItem(k, i, q.alts[k])).join('');
+        bindAltEvents();
+      }
+      dragSrc = null;
+    });
+  });
+}
+
+/* ── Result ── */
+function renderResult() {
+  const scores = calcScores();
+  const dom = getDominant(scores);
+  const sec = getSecondary(scores);
+  const P = PROFILES[dom];
+  const PS = PROFILES[sec];
+  const maxPts = 80; // max possible per profile (20 questions × 4pts)
+
+  sendToSheets(scores, dom, sec);
+
+  app.innerHTML = `
+    ${header()}
+    <div class="fade-up">
+      <div class="result-hero">
+        <p class="section-label">Seu perfil dominante</p>
+        <div class="profile-initial" style="background:${P.colorHex}22; border: 2px solid ${P.colorHex}">
+          <span style="color:${P.colorHex}">${dom}</span>
+        </div>
+        <h2 class="result-profile-name" style="color:${P.colorHex}">${P.name}</h2>
+        <p class="result-nick">${P.nick}</p>
+        <p class="result-phrase">${P.phrase}</p>
+        <div class="elem-badge" style="background:${P.colorHex}20; color:${P.colorHex}; border:1px solid ${P.colorHex}40">
+          ${P.element}
+        </div>
+      </div>
+
+      <p class="section-label">Perfil secundário</p>
+      <div class="sec-badge">
+        <span class="sec-dot" style="background:${PROFILES[sec].colorHex}"></span>
+        ${PS.name} — ${PS.nick}
+        <span style="color:var(--v4-muted); font-weight:400">${PS.phrase}</span>
+      </div>
+
+      <div class="chart">
+        <p class="chart-title">Pontuação por perfil</p>
+        ${['D','I','S','C'].map(k => {
+          const pct = Math.round((scores[k] / maxPts) * 100);
+          const w = Math.max(pct, 8);
+          return `
+          <div class="chart-row">
+            <span class="chart-lbl" style="color:${PROFILES[k].colorHex}">${k}</span>
+            <div class="chart-bg">
+              <div class="chart-bar" style="width:${w}%; background:${PROFILES[k].colorHex}">
+                ${scores[k]}pts
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <div class="detail-card">
+        <p class="detail-card-title" style="color:${P.colorHex}">● Perfil dominante — ${P.name} (${P.nick})</p>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-item-lbl">Motivações</span>
+            <span class="detail-item-val">${P.motivations}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Necessidade básica</span>
+            <span class="detail-item-val">${P.need}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Forças</span>
+            <span class="detail-item-val">${P.strengths}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Pontos de atenção</span>
+            <span class="detail-item-val">${P.weaknesses}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Sob pressão</span>
+            <span class="detail-item-val">${P.pressure}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Caráter / Medo</span>
+            <span class="detail-item-val">${P.character} · ${P.fear}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <p class="detail-card-title" style="color:${PS.colorHex}">● Perfil secundário — ${PS.name} (${PS.nick})</p>
+        <p class="result-phrase" style="margin-bottom:16px; font-size:14px; color:var(--v4-muted)">${PS.phrase}</p>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-item-lbl">Motivações</span>
+            <span class="detail-item-val">${PS.motivations}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Necessidade básica</span>
+            <span class="detail-item-val">${PS.need}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Forças</span>
+            <span class="detail-item-val">${PS.strengths}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Pontos de atenção</span>
+            <span class="detail-item-val">${PS.weaknesses}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Sob pressão</span>
+            <span class="detail-item-val">${PS.pressure}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-item-lbl">Caráter / Medo</span>
+            <span class="detail-item-val">${PS.character} · ${PS.fear}</span>
+          </div>
+        </div>
+      </div>
+
+      ${(() => {
+        const combo = COMBINATIONS[`${dom}+${sec}`];
+        if (!combo) return '';
+        return `
+        <div class="detail-card" style="border-color: #444">
+          <p class="detail-card-title">🔗 Combinação ${dom}+${sec} — ${combo.title}</p>
+          <p style="font-size:14px; line-height:1.7; color:var(--v4-muted); font-weight:400">${combo.text}</p>
+        </div>`;
+      })()}
+
+      <div class="divider"></div>
+      <p id="send-status" class="sending-msg"><span class="spinner"></span> Salvando seu resultado…</p>
+      <button class="btn btn-outline" id="btn-restart">↺ Refazer o teste</button>
+    </div>`;
+
+  document.getElementById('btn-restart').addEventListener('click', () => {
+    clearState();
+    S = {
+      screen: 'welcome',
+      user: { name: S.user.name, email: S.user.email, empresa: S.user.empresa, funcao: S.user.funcao },
+      currentQ: 0,
+      shuffled: [],
+      ranking: [],
+      answers: []
+    };
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+/* ─── GOOGLE SHEETS ──────────────────────────── */
+async function sendToSheets(scores, dom, sec) {
+  const payload = {
+    timestamp: new Date().toISOString(),
+    nome:      S.user.name,
+    email:     S.user.email,
+    empresa:   S.user.empresa,
+    funcao:    S.user.funcao,
+    scoreD:    scores.D,
+    scoreI:    scores.I,
+    scoreS:    scores.S,
+    scoreC:    scores.C,
+    dominante:  PROFILES[dom].name,
+    secundario: PROFILES[sec].name,
+    answers:   S.answers
+  };
+
+  const statusEl = () => document.getElementById('send-status');
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+    if (statusEl()) statusEl().textContent = '✓ Resultado salvo com sucesso.';
+  } catch(e) {
+    if (statusEl()) statusEl().textContent = '⚠ Não foi possível salvar. Verifique a URL do Apps Script.';
+  }
+}
+
+/* ─── UTILS ──────────────────────────────────── */
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+/* ─── INIT ───────────────────────────────────── */
+function init() {
+  const resumed = loadState();
+  if (resumed && S.screen === 'question' && S.answers.length === QUESTIONS.length) {
+    S.screen = 'result';
+  }
+  render();
+}
+
+init();
+</script>
+</body>
+</html>
